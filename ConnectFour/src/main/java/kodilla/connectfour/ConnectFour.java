@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
 
 public class ConnectFour extends Application {
 
-    static final int TILE_SIZE = 60;
+    static final int TILE_SIZE = 80;
     static final int COLUMNS = 7;
     static final int ROWS = 7;
 
@@ -39,7 +39,6 @@ public class ConnectFour extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 
     // Game Setup
     private Parent createGame() {
@@ -79,7 +78,10 @@ public class ConnectFour extends Application {
             Rectangle rectangle = new Rectangle(TILE_SIZE, (ROWS + 1) * TILE_SIZE);
             rectangle.setTranslateX(x * (TILE_SIZE) + TILE_SIZE / 2);
             rectangle.setFill(Color.TRANSPARENT);
+
             final int column = x;
+            rectangle.setOnMouseEntered(p -> rectangle.setFill(Color.rgb(150, 150, 0, 0.4)));
+            rectangle.setOnMouseExited(p -> rectangle.setFill(Color.TRANSPARENT));
             rectangle.setOnMouseClicked(p -> playDisc(new Disc(firstPlayerMove), column));
 
             columnList.add(rectangle);
@@ -159,7 +161,7 @@ public class ConnectFour extends Application {
             Disc disc = getDisc(column, row).orElse(new Disc(!firstPlayerMove));
             if (disc.firstPlayer == firstPlayerMove) {
                 sequence++;
-                if (sequence == 4) {
+                if (sequence >= 4) {
                     return true;
                 }
             } else {
